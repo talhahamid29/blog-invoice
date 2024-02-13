@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const Page = () => {
@@ -17,7 +18,7 @@ const Page = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:9000/api/signup/register", {
+      const response = await fetch("/api/auth/sign-up", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,14 +27,19 @@ const Page = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(data.message, "signup");
-        window.location.href = "/auth";
+        window.location.href = "/login";
       } else {
         console.error("Signup failed");
       }
     } catch (error) {
       console.error("Error during signup:", error);
+    } finally {
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+      });
     }
   };
 
@@ -78,7 +84,7 @@ const Page = () => {
           <input type="password" id="password" name="password" className="border rounded w-full p-2" onChange={handleChange} placeholder="******" />
         </div>
         <div>
-          <input type="checkbox" />
+          <input type="checkbox" className="mr-2" />
           Agree with <b>Privacy Policy</b>
           <br />
           <br />
@@ -86,35 +92,12 @@ const Page = () => {
         <button type="submit" className="bg-gray-900 text-white rounded py-2 px-4 hover:bg-blue-600" style={{ width: 435 }}>
           Create Account
         </button>
-        <div className="flex">
-          <b>
-            <br />
-            Or signup with
-            <br />
-            <br />
-          </b>
-          <hr />
-        </div>
-        <div className="flex">
-          <button className="bg-gray-200 rounded py-2 px-4 hover:black">
-            <b>in </b>LinkedIN
-          </button>
-          <button className="bg-gray-200 rounded py-2 px-4 hover:black ml-5">
-            <b>t </b>twitter
-          </button>
-          <button className="bg-gray-200 rounded py-2 px-4 hover:black ml-5">
-            <b>f </b>Facebook
-          </button>
-        </div>
-        <div className="flex">
-          <p className="text-gray-500">
-            <br />
-            already have account
-          </p>
-          <b>
-            <br />
-            <a href="/auth">Sign In</a>
-          </b>
+
+        <div className="text-gray-500 mt-2">
+          already have account
+          <Link href="/login" className="font-bold text-blue-700 ml-2 hover:underline">
+            Sign In
+          </Link>
         </div>
       </form>
     </div>
