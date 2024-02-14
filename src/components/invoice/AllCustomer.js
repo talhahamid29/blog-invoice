@@ -1,28 +1,38 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo , useEffect} from "react";
 import CommonTable from "../common/CommonTable";
+import { Button , Dialog , DialogTitle ,DialogContent, TextField , DialogActions } from '@mui/material';
 import { fakeData } from "./makeData";
 
 export default function AllCustomer() {
+  const [customersData, setCustomersData] = useState([])
+  const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [mobileNumber, setMobileNumber] = useState();
+    const [address, setAddress] = useState();
+    const [selectedId , setSelectedId] = useState()
+    const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
+    const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+    
   const columns = useMemo(
     () => [
       {
-        accessorKey: "id",
-        header: "Id",
+        accessorKey: "name",
+        header: "Name",
         enableEditing: false,
         size: 80,
       },
       {
-        accessorKey: "customerName",
-        header: "Customer Name",
-      },
-      {
-        accessorKey: "phone",
-        header: "Phone",
-      },
-      {
         accessorKey: "email",
         header: "Email",
+      },
+      {
+        accessorKey: "address",
+        header: "Address",
+      },
+      {
+        accessorKey: "mobile_no",
+        header: "Mobile Number",
       },
       {
         accessorKey: "action",
@@ -32,7 +42,7 @@ export default function AllCustomer() {
           return (
             <div className="text-xs">
               <div className="flex items-center gap-4">
-                <button className="text-xs text-blue-500" type="button">
+                <button className="text-xs text-blue-500" type="button" onClick={() => handleCustomerEdit(row)}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path
                       strokeLinecap="round"
@@ -41,7 +51,7 @@ export default function AllCustomer() {
                     />
                   </svg>
                 </button>
-                <button className="text-xs text-red-700 " type="button">
+                <button className="text-xs text-red-700 " type="button" onClick={() => handleCustomerDelete(row)}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path
                       strokeLinecap="round"
@@ -59,10 +69,143 @@ export default function AllCustomer() {
     []
   );
 
+  const handleGetCustomers = async (e) => {
+    try {
+      //   const response = await axios.post('http://localhost:3000/api/addcontmessage', { name, email , mobileNumber , message });
+        
+        const response = await fetch("/api/displaycustomers", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      } 
+    });
+
+     const { success1 , error , result } = await response.json();
+
+        console.log('Customers Get  successfully:', success1);
+        if(error!==undefined) {
+            console.log('Customers Get error:', error);
+        }
+        console.log('Customers Get result:', result);
+        setCustomersData(result)
+          //  setName('');
+          // setEmail('');
+          // setMobileNumber('');
+          // setAddress('')
+      } catch (error) {
+          console.error('Customers Get operation error', error);
+      }  };
+
+      useEffect(() => {
+        handleGetCustomers();
+        }, []); 
+
+        const handleCustomerEdit = async (row) => {
+          setSelectedId(row.original.id);
+          setName(row.original.name);
+          setEmail(row.original.email)
+          setMobileNumber(row.original.mobile_no)
+          setAddress(row.original.address)
+          setUpdateModalOpen(true);
+       }
+   
+       const handleCustomerUpdate = async (e) => {
+           try {
+               
+               const response = await fetch("/api/updatecustomer", {
+             method: "PUT",
+             headers: {
+               "Content-Type": "application/json",
+             } ,
+             body: JSON.stringify({ selectedId , name, email , mobileNumber , address }),
+           });
+       
+            const { success1 , error , result } = await response.json();
+       
+               console.log('Customer Updated  successfully:', success1);
+               if(error!==undefined) {
+                   console.log('Customer Updated error:', error);
+               }
+               console.log('Customer Updated result:', result);
+               setUpdateModalOpen(false)
+               handleGetCustomers()
+               } catch (error) {
+                 console.error('Customer Update operation error', error);
+             }  };
+
+        const handleCustomerDelete = (row) => {
+        setSelectedId(row.original.id);
+        setDeleteConfirmationOpen(true);
+        };
+    
+        const confirmDelete = async () => {
+            try {
+                const response = await fetch("/api/deletecustomer", {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              } ,
+              body: JSON.stringify({ selectedId }),
+            });
+        
+              const { success1 , error , result } = await response.json();
+        
+                console.log('Customer Deleted  successfully:', success1);
+                if(error!==undefined) {
+                    console.log('Customer Deleted error:', error);
+                }
+                console.log('Customer Deleted result:', result);
+                setDeleteConfirmationOpen(false);
+                handleGetCustomers()
+                } catch (error) {
+                  console.error('Customer Delete operation error', error);
+              } 
+        };
+    
+
   return (
     <>
       <h2 className="text-2xl font-bold">ITEM LIST</h2>
-      <CommonTable columns={columns} data={fakeData} />
+      <CommonTable columns={columns} data={customersData} />
+      <Dialog open={isUpdateModalOpen} onClose={() => setUpdateModalOpen(false)}>
+          <DialogTitle>Update Customer</DialogTitle>
+          <DialogContent>
+            <TextField sx={{marginTop : 1}}
+              label="Customer Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField sx={{marginTop : 1 , marginLeft : 2}}
+              label="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField sx={{marginTop : 2 }}
+              label="Mobile Number"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+            />
+            <TextField sx={{marginTop : 2 , marginLeft : 2}}
+              label="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setUpdateModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleCustomerUpdate}>Update</Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)}>
+                <DialogTitle>Delete Customer</DialogTitle>
+                <DialogContent>
+                    <p>Are you sure you want to delete this customer?</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteConfirmationOpen(false)}>Cancel</Button>
+                    <Button onClick={confirmDelete} color="error">Delete</Button>
+                </DialogActions>
+            </Dialog>
     </>
   );
 }

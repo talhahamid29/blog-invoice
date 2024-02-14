@@ -17,6 +17,16 @@ const SIDENAV_ITEMS = [
     ],
   },
   {
+    title: "Blog",
+    path: "/invoice/add-blog",
+    icon: <Icon icon="lucide:folder" width="24" height="24" />,
+    submenu: true,
+    subMenuItems: [
+      { title: "Add Blog", path: "/invoice/add-blog" },
+      { title: "All Blog", path: "/invoice/all-blog" },
+    ],
+  },
+  {
     title: "Item",
     path: "/invoice/add-item",
     icon: <Icon icon="lucide:folder" width="24" height="24" />,

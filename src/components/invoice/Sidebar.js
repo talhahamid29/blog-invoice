@@ -15,12 +15,16 @@ const Sidebar = () => {
   const [toggleCollapse, setToggleCollapse] = useState(false);
   const [isCollapsible, setIsCollapsible] = useState(false);
   const [isCustomerOpen, setIsCustomerOpen] = useState(false);
+  const [isBlogOpen, setIsBlogOpen] = useState(false);
   const [isItemOpen, setItemOpen] = useState(false);
   const [isSalesOpen, setIsSalesOpen] = useState(false);
   const [isPurchaseOpen, setIsPurchaseOpen] = useState(false);
 
   const handleCustomerClick = () => {
     setIsCustomerOpen(!isCustomerOpen);
+  };
+  const handleBlogClick = () => {
+    setIsBlogOpen(!isBlogOpen);
   };
   const handleSalesClick = () => {
     setIsSalesOpen(!isSalesOpen);
@@ -79,7 +83,7 @@ const Sidebar = () => {
           onClick={handleCustomerClick}>
           <div className="flex items-center">
             <UserIcon className="h-5 w-5 mr-2" />
-            {!toggleCollapse && <div>Customer</div>}
+            {!toggleCollapse && <div>Customer 1</div>}
           </div>
           <ChevronRightIcon className={`h-3 w-3 ${isCustomerOpen ? "rotate-90" : ""}`} />
         </div>
@@ -92,7 +96,7 @@ const Sidebar = () => {
                     window.location.pathname == "/add-customer" ? "bg-gray-100 " : "text-gray-400 hover:bg-gray-100 "
                   }`}>
                   <PaperAirplaneIcon className="h-3 w-3 mr-2" />
-                  <div className="text-sm">Add Customer</div>
+                  <div className="text-sm">Add Customer 1</div>
                 </div>
               </Link>
             </div>
@@ -103,12 +107,63 @@ const Sidebar = () => {
                     window.location.pathname == "/all-customer" ? "bg-gray-100 " : "text-gray-400 hover:bg-gray-100 "
                   }`}>
                   <PaperAirplaneIcon className="h-3 w-3 mr-2" />
-                  <div className="text-sm">All Customer</div>
+                  <div className="text-sm">All Customer 1</div>
                 </div>
               </Link>
             </div>
           </>
         )}
+
+
+
+
+
+       <div
+          className={`px-2 py-1 rounded cursor-pointer flex items-center justify-between transition-colors 
+            ${
+              window.location.pathname == "/invoice/add-blog" || window.location.pathname == "/invoice/all-blog"
+                ? "bg-gray-100"
+                : "text-gray-400"
+            } hover:bg-gray-100`}
+          onClick={handleBlogClick}>
+          <div className="flex items-center">
+            <UserIcon className="h-5 w-5 mr-2" />
+            {!toggleCollapse && <div>Blog</div>}
+          </div>
+          <ChevronRightIcon className={`h-3 w-3 ${isBlogOpen ? "rotate-90" : ""}`} />
+        </div>
+        {isBlogOpen && (
+          <>
+            <div className="ml-7">
+              <Link href="/invoice/add-blog">
+                <div
+                  className={`px-2 py-1 rounded cursor-pointer flex items-center transition-colors ${
+                    window.location.pathname == "/add-blog" ? "bg-gray-100 " : "text-gray-400 hover:bg-gray-100 "
+                  }`}>
+                  <PaperAirplaneIcon className="h-3 w-3 mr-2" />
+                  <div className="text-sm">Add Blog</div>
+                </div>
+              </Link>
+            </div>
+            <div className="ml-7">
+              <Link href="/invoice/all-blog">
+                <div
+                  className={`px-2 py-1 rounded cursor-pointer flex items-center transition-colors ${
+                    window.location.pathname == "/all-blog" ? "bg-gray-100 " : "text-gray-400 hover:bg-gray-100 "
+                  }`}>
+                  <PaperAirplaneIcon className="h-3 w-3 mr-2" />
+                  <div className="text-sm">All Blog</div>
+                </div>
+              </Link>
+            </div>
+          </>
+        )}
+
+
+
+
+
+
 
         <div
           className={`px-2 py-1 rounded cursor-pointer flex items-center justify-between transition-colors ${
@@ -130,7 +185,7 @@ const Sidebar = () => {
                     window.location.pathname == "/item" ? "bg-gray-100 " : "text-gray-400 hover:bg-gray-100 "
                   }`}>
                   <PaperAirplaneIcon className="h-3 w-3 mr-2" />
-                  <div className="text-sm">Add Item</div>
+                  <div className="text-sm">Add Item 1</div>
                 </div>
               </Link>
             </div>
@@ -141,7 +196,7 @@ const Sidebar = () => {
                     window.location.pathname == "/itemall" ? "bg-gray-100 " : "text-gray-400 hover:bg-gray-100 "
                   }`}>
                   <PaperAirplaneIcon className="h-3 w-3 mr-2" />
-                  <div className="text-sm">All Item</div>
+                  <div className="text-sm">All Item 1</div>
                 </div>
               </Link>
             </div>
