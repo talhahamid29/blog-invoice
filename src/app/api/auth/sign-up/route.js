@@ -5,11 +5,12 @@ export async function POST(req) {
   const { firstname, lastname, email, password } = await req.json();
   try {
     const connection = await pool.getConnection();
-    const [result] = await connection.query("INSERT INTO registration (firstname, lastname, email, password) VALUES (?, ?,?,?)", [
+    const [result] = await connection.query("INSERT INTO registration (firstname, lastname, email, password, role) VALUES (?,?,?,?,?)", [
       firstname,
       lastname,
       email,
       password,
+      "User",
     ]);
     connection.release();
     return NextResponse.json({ message: "User added Successfully!" });

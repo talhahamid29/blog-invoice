@@ -29,7 +29,7 @@ export const authOption = {
           }
           connection.release();
         } catch (error) {
-          console.log("Error: ", error);
+          return NextResponse.json({ status: 400, errors: error.messages });
         }
       },
     }),

@@ -1,14 +1,24 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem("rememberedEmail");
+    const rememberedPassword = localStorage.getItem("rememberedPassword");
+    if (rememberedEmail && rememberedPassword) {
+      setEmail(rememberedEmail);
+      setPassword(rememberedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,7 +32,11 @@ const Page = () => {
 
       if (res.error) {
         throw new Error("Wrong Credentials...");
-        return;
+      }
+
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+        localStorage.setItem("rememberedPassword", password);
       }
 
       router.replace("/invoice");
@@ -78,17 +92,19 @@ const Page = () => {
         </div>
         <div className="flex justify-between mb-2">
           <div className="flex items-center">
-            <input type="checkbox" className="mr-2" />
-            <p>Remember paasword</p>
+            <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="mr-2" />
+            <p>Remember me</p>
           </div>
-          <p className="font-bold text-blue-700 ml-2 hover:underline">Forget password</p>
+          <Link href="/forgot-password" className="font-bold text-blue-700 ml-2 hover:underline">
+            Forget password
+          </Link>
         </div>
         <button type="submit" className="bg-gray-900 text-white rounded py-2 px-4 hover:bg-blue-600" style={{ width: 435 }}>
           Sign in
         </button>
 
         <div className="mt-2">
-          Dont have account
+          Dont have an account?
           <Link href="/sign-up" className="font-bold text-blue-700 ml-2 hover:underline">
             Create account
           </Link>
