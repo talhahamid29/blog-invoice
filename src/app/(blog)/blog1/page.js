@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { blogData } from "@/components/blog1/blogData";
+// import { blogData } from "@/components/blog1/blogData";
+import fetchBlogData from "@/components/blog1/fetchBlogData";
 import BlogLists from "@/components/blog1/BlogLists";
 import Pagination from "@/components/common/Pagination";
 import UserProfile from "@/components/blog1/UserProfile";
@@ -10,7 +11,22 @@ import Footer from "@/components/footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
 
 export default function Page() {
+  const [blogData, setBlogData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchBlogData();
+        setBlogData(data);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   const totalBlogs = blogData.length;
   const blogsPerPage = 6;
 
