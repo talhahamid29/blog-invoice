@@ -6,7 +6,7 @@ export async function GET(req, res) {
     try {
 
         const params = new URLSearchParams(req.url.split('?')[1]);
-
+        
       // Now you can access individual parameters using the get method
         const slug = params.get('slug');
         console.log('slug inside getblog is:', slug)
