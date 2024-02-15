@@ -9,17 +9,12 @@ const fetchBlogData = async (e) => {
         } 
       });
 
-      console.log('before response.json')
-
      const { success1 , error , result } = await response.json();
 
-        console.log('Blogs Get  successfully:', success1);
         if(error!==undefined) {
             console.log('Blogs Get error:', error);
         }
-        console.log('Blogs Get result:', result);
         // setCustomersData(result)
-        console.log('inside fetchblogdata result is:' , result)
         return result;
           //  setName('');
           // setEmail('');

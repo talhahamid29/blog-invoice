@@ -25,8 +25,8 @@ export default function Blog({ blog }) {
                         </Link>
 
                         
-                        {/* <p className="text-justify text-gray-600 text-base font-normal leading-8">{extractText(blog.content)}</p> */}
                         <p className="text-justify text-gray-600 text-base font-normal leading-8" dangerouslySetInnerHTML={{ __html: blog.content }}></p>
+                        {/* <p className="text-justify text-gray-600 text-base font-normal leading-8">{blog.content}</p> */}
                     </div>
                 </div>
 

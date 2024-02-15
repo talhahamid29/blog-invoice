@@ -20,7 +20,6 @@ export default function SlugPage({ params }) {
 
   const handleGetBlog = async (e) => {
     try {
-      console.log('before api , slug is:', slug)
       
       const response = await fetch(`/api/getblog?slug=${slug}`, {
         method: "GET",
@@ -33,13 +32,10 @@ export default function SlugPage({ params }) {
 
       setBlogData(result)
 
-      console.log('blogData inside handleGetBlog: ', blogData)
-
-      console.log('Blog Get successfully:', success1);
+      
       if (error !== undefined) {
         console.log('Blog Get error:', error);
       }
-      console.log('Blog Get result:', result);
     } catch (error) {
       console.error('Blog Get operation error', error);
     }
@@ -49,7 +45,6 @@ export default function SlugPage({ params }) {
     async function fetchData() {
       try {
         if (slug) {
-          console.log('Slug is:', slug);
           await handleGetBlog();
         }
       } catch (error) {
