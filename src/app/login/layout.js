@@ -2,8 +2,8 @@ import AuthProviders from "@/components/providers/AuthProviders";
 import "../globals.css";
 
 export const metadata = {
-  title: "Sign-up page",
-  description: "Sign-up first to login",
+  title: "Login Page",
+  description: "Login to access the invoice app",
 };
 
 export default function RootLayout({ children }) {

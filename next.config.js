@@ -2,16 +2,16 @@
 const nextConfig = {
   redirects: async () => {
     return [
-      {
-        source: "/login",
-        destination: "/auth",
-        permanent: false,
-      },
-      {
-        source: "/signup",
-        destination: "/signups",
-        permanent: false,
-      },
+      // {
+      //   source: "/login",
+      //   destination: "/login",
+      //   permanent: false,
+      // },
+      // {
+      //   source: "/sign-up",
+      //   destination: "/sign-up",
+      //   permanent: false,
+      // },
       {
         source: "/admin",
         destination: "/admins",

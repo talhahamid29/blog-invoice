@@ -1,3 +1,4 @@
+import AuthProviders from "@/components/providers/AuthProviders";
 import "../globals.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Montserrat } from "next/font/google";
@@ -17,16 +18,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full bg-white">
       <body className={montserrat.className} suppressHydrationWarning={true}>
-        {/* <header className="fixed top-0 left-0 right-0 z-50 ">
+        <AuthProviders>
+          {/* <header className="fixed top-0 left-0 right-0 z-50 ">
           <Navbar />
         </header> */}
-        <section>
-          {children}
-          {/* <ScrollToTopButton /> */}
-        </section>
-        {/* <footer>
+          <section>
+            {children}
+            {/* <ScrollToTopButton /> */}
+          </section>
+          {/* <footer>
           <Footer />
         </footer> */}
+        </AuthProviders>
       </body>
     </html>
   );

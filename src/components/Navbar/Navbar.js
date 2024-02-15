@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { navigationItems } from "./navigationItems";
 import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const [isSubMenuVisible, setSubMenuVisible] = useState(false);
@@ -24,9 +25,10 @@ export default function Navbar() {
     }
   }, [pathname]);
 
-  const handleSignOut = () => {
-    localStorage.removeItem("session");
-    window.location.href = "/";
+  const { data: session } = useSession();
+
+  const handleLogout = async () => {
+    await signOut();
   };
 
   return (
@@ -131,12 +133,21 @@ export default function Navbar() {
                       </ul>
                     </div>
                   </div>
-                  <Link href="/sign-up">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded">Sign Up</button>
-                  </Link>
-                  <Link href="/login">
-                    <button className="bg-gray-300 hover:bg-gray-700 hover:text-white text-sm font-semibold py-2 px-4 rounded">Sign In</button>
-                  </Link>
+
+                  {session ? (
+                    <button className="bg-gray-300 hover:bg-gray-700 hover:text-white text-sm font-semibold py-2 px-4 rounded" onClick={handleLogout}>
+                      Sign Out
+                    </button>
+                  ) : (
+                    <>
+                      <Link href="/sign-up">
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded">Sign Up</button>
+                      </Link>
+                      <Link href="/login">
+                        <button className="bg-gray-300 hover:bg-gray-700 hover:text-white text-sm font-semibold py-2 px-4 rounded">Sign In</button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
 

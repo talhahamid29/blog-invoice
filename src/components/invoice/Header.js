@@ -4,10 +4,16 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import useScroll from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
+import { signOut, useSession } from "next-auth/react";
 
 const Header = () => {
   const scrolled = useScroll(5);
   const selectedLayout = useSelectedLayoutSegment();
+  const { data: session } = useSession();
+
+  const handleLogout = async () => {
+    await signOut();
+  };
 
   return (
     <div
@@ -23,10 +29,18 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="hidden md:block">
+        <div className="hidden md:flex md:items-center md:gap-4">
+          <Link href="/" className="font-bold">
+            Blog
+          </Link>
           <picture>
-            <img src="/man-smiling.jpg" className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm" alt="profile picture" />
+            <img src="/man-smiling.jpg" className="rounded-full h-8 border-2 border-white shadow-sm" alt="profile picture" />
           </picture>
+          {session && (
+            <button className="bg-gray-300 hover:bg-gray-700 hover:text-white text-sm font-semibold py-1 px-2 rounded" onClick={handleLogout}>
+              Sign Out
+            </button>
+          )}
         </div>
       </div>
     </div>
