@@ -21,14 +21,7 @@ export default function SlugPage({ params }) {
   const handleGetBlog = async (e) => {
     try {
       console.log('before api , slug is:', slug)
-      // const response = await fetch(`/api/getblog`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ slug }),
-      // });
-
+      
       const response = await fetch(`/api/getblog?slug=${slug}`, {
         method: "GET",
         headers: {
@@ -65,10 +58,6 @@ export default function SlugPage({ params }) {
     }
     fetchData();
   }, [slug]); // Add slug as dependency to rerun effect when slug changes
-
-  // useEffect(() => {
-  //   console.log('Updated blogData:', blogData); // Log the updated blogData
-  // }, [blogData]);
 
   return (
     <div style={{ overflowY: "scroll", scrollbarColor: "white white", scrollbarWidth: 'thin', height: '100vh' }}>

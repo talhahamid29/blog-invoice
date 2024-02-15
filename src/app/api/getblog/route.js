@@ -9,15 +9,10 @@ export async function GET(req, res) {
         
       // Now you can access individual parameters using the get method
         const slug = params.get('slug');
-        console.log('slug inside getblog is:', slug)
        
-        console.log('slug inside getblog:', slug);
-        
         const getConn = await pool.getConnection()
 
         const [rows] = await getConn.execute("CALL getBlog(?)", [slug]);
-
-        console.log('rows data is:', rows[0][0])
 
         return NextResponse.json({  result: rows[0][0] }, { status: 200 });
         

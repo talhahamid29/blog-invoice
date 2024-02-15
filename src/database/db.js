@@ -5,7 +5,7 @@ const pool = mysql.createPool({
   user: "root",
   password: "1234",
   database: "invoiceapp",
-  connectionLimit: 10,
+  connectionLimit: 1000,
 });
 
 export default pool;

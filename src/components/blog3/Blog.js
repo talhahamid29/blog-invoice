@@ -1,13 +1,8 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function Blog({ blog }) {
-
-    const extractText = (html) => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
-        return tempDiv.textContent || tempDiv.innerText || '';
-      };
 
     return (
         <div className="space-y-10">
@@ -30,7 +25,8 @@ export default function Blog({ blog }) {
                         </Link>
 
                         
-                        <p className="text-justify text-gray-600 text-base font-normal leading-8">{extractText(blog.content)}</p>
+                        {/* <p className="text-justify text-gray-600 text-base font-normal leading-8">{extractText(blog.content)}</p> */}
+                        <p className="text-justify text-gray-600 text-base font-normal leading-8" dangerouslySetInnerHTML={{ __html: blog.content }}></p>
                     </div>
                 </div>
 
