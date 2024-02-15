@@ -27,7 +27,7 @@ export default function Page() {
     fetchData();
   }, []);
 
-  const totalBlogs = blogData.length;
+  const totalBlogs = blogData?.length;
   const blogsPerPage = 6;
 
   // Calculate the index range for the current page
@@ -35,7 +35,7 @@ export default function Page() {
   const endIndex = startIndex + blogsPerPage;
 
   // Slice the data to display only the items for the current page
-  const displayedData = blogData.slice(startIndex, endIndex);
+  const displayedData = blogData?.slice(startIndex, endIndex);
 
   useEffect(() => {
     setCurrentPage(1);
