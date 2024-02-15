@@ -9,8 +9,6 @@ export async function GET(req, res) {
 
         const [rows] = await getConn.execute('CALL getBlogs()');
 
-        console.log('rows data is:', rows[0])
-
         return NextResponse.json({  result : rows[0] }, { status: 200 });
         
     } catch (error) {

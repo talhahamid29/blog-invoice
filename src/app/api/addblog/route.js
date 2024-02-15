@@ -1,10 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import formidable from 'formidable';
 import fs, { writeFile } from 'fs';
-import path from 'path';
-import multer from 'multer';
-import { join } from 'path';
 import pool from '@/database/db';
 
   
@@ -12,7 +8,6 @@ import pool from '@/database/db';
     try {
 
         const data = await req.formData()
-        console.log('data is: ', data)
         const image = data.get('image')
         const title = data.get('title')
         const content = data.get('content')
@@ -43,21 +38,14 @@ import pool from '@/database/db';
 
         const imagePath =  `/blog_images/${slug}.${fileExtension}`
 
-        console.log('image is: ', image)
-        console.log('image.name is: ', image.name)
         
-      // Save the data to the database or perform other operations
-      console.log('Title:', title);
-      console.log('Content:', content);
-      console.log('Image Path:', path);
-
-    const getConn = await pool.getConnection()
+     
+      const getConn = await pool.getConnection()
 
         const [rows] = await getConn.execute("CALL addBlogs(?, ?, ?, ?)", [title, content, slug, imagePath]);
 
-        console.log('rows data is:', rows)
         
-return NextResponse.json({ result : rows }, { status: 200 });
+        return NextResponse.json({ result : rows }, { status: 200 });
   
       // Respond with success message
       } catch (error) {

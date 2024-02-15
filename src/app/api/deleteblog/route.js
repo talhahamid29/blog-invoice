@@ -1,7 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import fs, { writeFile } from 'fs';
-import path from 'path';
+import fs from 'fs';
 import pool from '@/database/db';
 
   
@@ -30,8 +29,6 @@ import pool from '@/database/db';
         const getConn = await pool.getConnection()
 
         const [rows] = await getConn.execute("CALL deleteBlog(?)", [selectedId]);
-
-        console.log('rows data is:', rows)
 
         return NextResponse.json({ result : rows }, { status: 200 });
         

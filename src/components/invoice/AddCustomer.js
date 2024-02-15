@@ -11,8 +11,6 @@ const AddCustomer = () => {
   const handleAddCustomer = async (e) => {
     e.preventDefault();
     try {
-      //   const response = await axios.post('http://localhost:3000/api/addcontmessage', { name, email , mobileNumber , message });
-        
         const response = await fetch("/api/addcustomer", {
       method: "POST",
       headers: {
@@ -21,13 +19,11 @@ const AddCustomer = () => {
       body: JSON.stringify({ name, email , mobileNumber , address }),
     });
 
-     const { success1 , error , result } = await response.json();
+     const { error , result } = await response.json();
 
-        console.log('Customer Added successfully:', success1);
         if(error!==undefined) {
              console.log('Customer Added error:', error);
         }
-        console.log('Customer Added result:', result);
            setName('');
           setEmail('');
           setMobileNumber('');
@@ -81,12 +77,8 @@ const AddCustomer = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 className="bg-gray-100 text-sm md:text-base w-[200px] sm:w-[300px] min-h-[60px] md:min-h-[100px] p-2 border-none outline-none rounded-md"
                 placeholder="Company Address"></textarea>
-              
             </div>
-
-            
           </div>
-
           <div className="flex items-center justify-center gap-2 py-5">
             <button onClick={handleAddCustomer} className="bg-green-500 text-white rounded px-2 py-1">Save</button>
           </div>

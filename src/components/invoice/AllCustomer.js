@@ -71,8 +71,6 @@ export default function AllCustomer() {
 
   const handleGetCustomers = async (e) => {
     try {
-      //   const response = await axios.post('http://localhost:3000/api/addcontmessage', { name, email , mobileNumber , message });
-        
         const response = await fetch("/api/displaycustomers", {
       method: "GET",
       headers: {
@@ -80,19 +78,13 @@ export default function AllCustomer() {
       } 
     });
 
-     const { success1 , error , result } = await response.json();
+     const { error , result } = await response.json();
 
-        console.log('Customers Get  successfully:', success1);
         if(error!==undefined) {
             console.log('Customers Get error:', error);
         }
-        console.log('Customers Get result:', result);
         setCustomersData(result)
-          //  setName('');
-          // setEmail('');
-          // setMobileNumber('');
-          // setAddress('')
-      } catch (error) {
+        } catch (error) {
           console.error('Customers Get operation error', error);
       }  };
 
@@ -120,13 +112,11 @@ export default function AllCustomer() {
              body: JSON.stringify({ selectedId , name, email , mobileNumber , address }),
            });
        
-            const { success1 , error , result } = await response.json();
+            const { error , result } = await response.json();
        
-               console.log('Customer Updated  successfully:', success1);
                if(error!==undefined) {
                    console.log('Customer Updated error:', error);
                }
-               console.log('Customer Updated result:', result);
                setUpdateModalOpen(false)
                handleGetCustomers()
                } catch (error) {
@@ -148,13 +138,11 @@ export default function AllCustomer() {
               body: JSON.stringify({ selectedId }),
             });
         
-              const { success1 , error , result } = await response.json();
+              const { error , result } = await response.json();
         
-                console.log('Customer Deleted  successfully:', success1);
                 if(error!==undefined) {
                     console.log('Customer Deleted error:', error);
                 }
-                console.log('Customer Deleted result:', result);
                 setDeleteConfirmationOpen(false);
                 handleGetCustomers()
                 } catch (error) {

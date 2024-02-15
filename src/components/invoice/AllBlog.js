@@ -26,10 +26,8 @@ export default function AllBlog() {
     }, [content]);
 
     const handleImageChange = (e) => {
-      console.log('inside handleImageChange')
       const selectedFile = e.target.files[0];
       setImage(selectedFile);
-      console.log("image client is: ", image)
       setImageName(selectedFile ? selectedFile.name : ""); // Set the file name
     };
 
@@ -83,7 +81,6 @@ export default function AllBlog() {
 
   const handleGetBlogs = async (e) => {
     try {
-      //   const response = await axios.post('http://localhost:3000/api/addcontmessage', { name, email , mobileNumber , message });
         
         const response = await fetch("/api/displayblogs", {
       method: "GET",
@@ -92,18 +89,12 @@ export default function AllBlog() {
       } 
     });
 
-     const { success1 , error , result } = await response.json();
+     const { error , result } = await response.json();
 
-        console.log('Blogs Get  successfully:', success1);
         if(error!==undefined) {
             console.log('Blogs Get error:', error);
         }
-        console.log('Blogs Get result:', result);
         setBlogsData(result)
-          //  setName('');
-          // setEmail('');
-          // setMobileNumber('');
-          // setAddress('')
       } catch (error) {
           console.error('Blogs Get operation error', error);
       }  };
@@ -126,7 +117,6 @@ export default function AllBlog() {
        const handleBlogUpdate = async (e) => {
            try {
             const formData = new FormData();
-            console.log('inside handleBlogUpdate title', title)
             formData.append('title', title);
             formData.append('content', content);
             formData.append('image', image);
@@ -139,13 +129,11 @@ export default function AllBlog() {
              body: formData,
            });
        
-            const { success1 , error , result } = await response.json();
+            const { error , result } = await response.json();
        
-               console.log('Customer Updated  successfully:', success1);
                if(error!==undefined) {
                    console.log('Customer Updated error:', error);
                }
-               console.log('Customer Updated result:', result);
                setUpdateModalOpen(false)
                handleGetBlogs()
                } catch (error) {
@@ -161,7 +149,6 @@ export default function AllBlog() {
         const confirmDelete = async () => {
             try {
               const formData = new FormData();
-              console.log('inside handleBlogUpdate title', title)
               formData.append('selectedId', selectedId);
               formData.append('previousimage', previousimage);
                 const response = await fetch("/api/deleteblog", {
@@ -169,13 +156,11 @@ export default function AllBlog() {
               body: formData
             });
         
-              const { success1 , error , result } = await response.json();
+              const { error , result } = await response.json();
         
-                console.log('Customer Deleted  successfully:', success1);
                 if(error!==undefined) {
                     console.log('Customer Deleted error:', error);
                 }
-                console.log('Customer Deleted result:', result);
                 setDeleteConfirmationOpen(false);
                 handleGetBlogs()
                 } catch (error) {

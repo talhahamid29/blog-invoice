@@ -1,11 +1,6 @@
 "use client"
 import React from "react";
 import { useState , useRef, useEffect } from "react";
-import dynamic from 'next/dynamic'; // Import dynamic from next/dynamic
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false }); // Dynamically import ReactQuill
-
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 
@@ -24,7 +19,6 @@ const AddBlog = () => {
   }, [content]);
 
   const handleImageChange = (e) => {
-    console.log('inside handleImageChange')
     const selectedFile = e.target.files[0];
     setImage(selectedFile);
     setImageName(selectedFile ? selectedFile.name : ""); // Set the file name
@@ -37,20 +31,17 @@ const AddBlog = () => {
       formData.append('title', title);
       formData.append('content', content);
       formData.append('image', image);
-      //   const response = await axios.post('http://localhost:3000/api/addcontmessage', { name, email , mobileNumber , message });
-        console.log('before api , image is' , image)
-        const response = await fetch("/api/addblog", {
+       
+      const response = await fetch("/api/addblog", {
       method: "POST",
       body: formData,
     });
 
-     const { success1 , error , result } = await response.json();
+     const { error , result } = await response.json();
 
-        console.log('Blog Added successfully:', success1);
         if(error!==undefined) {
              console.log('Blog Added error:', error);
         }
-        console.log('Blog Added result:', result);
            setTitle('');
           setContent('');
           setImage(null);
@@ -89,13 +80,6 @@ const AddBlog = () => {
                   className="hidden text-sm md:text-base md:w-[850px] sm:w-[300px] h-[30px] md:h-[40px] px-2 py-0 border-gray-300 outline-none rounded-md"
                />
                </label>
-              {/* <ReactQuill
-                theme="snow"
-                value={content}
-                onChange={setContent}
-                placeholder="Write something..."
-                className = "bg-gray-100 h-80"
-              /> */}
               <SunEditor
               ref={editorRef}
               setContents={content}
@@ -120,12 +104,8 @@ const AddBlog = () => {
                 backgroundColor: 'red', // Set background color
               }}
             />
-              
             </div>
-
-            
           </div>
-
           <div className="flex items-center justify-center gap-2 py-5">
             <button onClick={handleAddBlog} className="bg-green-500 text-white rounded px-2 py-1">Save</button>
           </div>

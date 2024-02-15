@@ -23,7 +23,6 @@ export default function Blog({ blog }) {
                         <Link href='/'>
                             <h1 className="text-gray-800 hover:text-red-600 hover:underline text-2xl font-bold">{blog.title}</h1>
                         </Link>
-
                         
                         <p className="text-justify text-gray-600 text-base font-normal leading-8" dangerouslySetInnerHTML={{ __html: blog.content }}></p>
                         {/* <p className="text-justify text-gray-600 text-base font-normal leading-8">{blog.content}</p> */}

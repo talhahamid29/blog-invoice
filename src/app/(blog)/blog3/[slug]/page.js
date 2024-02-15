@@ -14,9 +14,7 @@ export default function SlugPage({ params }) {
 
   const { slug } = params
 
-
   const [blogData, setBlogData] = useState({});
-
 
   const handleGetBlog = async (e) => {
     try {
@@ -28,11 +26,10 @@ export default function SlugPage({ params }) {
         },
         });
 
-      const { success1, error, result } = await response.json();
+      const { error, result } = await response.json();
 
       setBlogData(result)
 
-      
       if (error !== undefined) {
         console.log('Blog Get error:', error);
       }
