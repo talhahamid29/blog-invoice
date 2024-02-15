@@ -1,17 +1,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql';
 import fs, { writeFile } from 'fs';
 import path from 'path';
-
-
- 
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'IndustryApp'
-});
+import pool from '@/database/db';
 
   
   export async function DELETE(req) {
@@ -26,26 +17,6 @@ const pool = mysql.createPool({
         }
 
         
-        const queryAsync = (sql, values) => {
-            return new Promise((resolve, reject) => {
-                pool.getConnection((err, connection) => {
-                    if (err) {
-                        console.error('Error getting MySQL connection:', err);
-                        return reject({ success1: false, error: 'Failed to get MySQL connection' });
-                    }
-                    connection.query(sql, values, (err, result) => {
-                        connection.release();
-                        if (err) {
-                            console.error('Error executing MySQL query:', err);
-                            return reject({ success1: false, error: 'Failed to execute MySQL query' });
-                        }
-                        resolve({ success1: true, result });
-                    });
-                });
-            });
-        };
-        
-       
         const previousImagePath = `./public/${previousimage}`;
 
         if (fs.existsSync(previousImagePath)) {
@@ -56,17 +27,18 @@ const pool = mysql.createPool({
             console.log('File does not exist');
         }
 
-        const { success1, error , result} = await queryAsync("CALL deleteBlog(?)", [selectedId]);
-        if (error) {
-            console.error('Error:', error);
-            return NextResponse.json(error, { status: 500 });
-        }
-        return NextResponse.json({ success1 , result }, { status: 200 });
+        const getConn = await pool.getConnection()
+
+        const [rows] = await getConn.execute("CALL deleteBlog(?)", [selectedId]);
+
+        console.log('rows data is:', rows)
+
+        return NextResponse.json({ result : rows }, { status: 200 });
         
       // Respond with success message
       } catch (error) {
         console.error('Error during blog addition:', error);
-        return NextResponse.json({ success1: false, error: 'Failed to add blog' }, { status: 500 });
+        return NextResponse.json({  error: 'Failed to add blog' }, { status: 500 });
     }
   };
 

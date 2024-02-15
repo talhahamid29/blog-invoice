@@ -24,7 +24,7 @@ export default function BlogLists({ blogData }) {
                             <Link href='/'>
                                 <h1 className="text-gray-800 hover:text-red-600 hover:underline text-2xl font-bold">{blog.title}</h1>
                             </Link>
-                            <Link href='/' className="bg-indigo-500 hover:bg-gray-800 text-white hover:text-gray-200 shadow-2xl hover:shadow-none font-semibold px-6 py-2 rounded-full " >
+                            <Link href={`blog3/${blog.slug}`} className="bg-indigo-500 hover:bg-gray-800 text-white hover:text-gray-200 shadow-2xl hover:shadow-none font-semibold px-6 py-2 rounded-full " >
                                 Read More
                             </Link>
                         </div>

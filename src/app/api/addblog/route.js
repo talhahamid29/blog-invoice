@@ -1,20 +1,11 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql';
 import formidable from 'formidable';
 import fs, { writeFile } from 'fs';
 import path from 'path';
 import multer from 'multer';
 import { join } from 'path';
-
-
- 
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'IndustryApp'
-});
+import pool from '@/database/db';
 
   
   export async function POST(req) {
@@ -54,47 +45,19 @@ const pool = mysql.createPool({
 
         console.log('image is: ', image)
         console.log('image.name is: ', image.name)
-        // const path = join('/','public','blog_images', image.name)
-        // await new Promise((resolve, reject) => {
-        //     fs.writeFile(path, buffer, (err) => {
-        //       if (err) reject(err);
-        //       else resolve();
-        //     });
-        //   });
-
-
+        
       // Save the data to the database or perform other operations
       console.log('Title:', title);
       console.log('Content:', content);
       console.log('Image Path:', path);
 
-      const queryAsync = (sql, values) => {
-        return new Promise((resolve, reject) => {
-            pool.getConnection((err, connection) => {
-                if (err) {
-                    console.error('Error getting MySQL connection:', err);
-                    return reject({ success1: false, error: 'Failed to get MySQL connection' });
-                }
-                connection.query(sql, values, (err, result) => {
-                    connection.release();
-                    if (err) {
-                        console.error('Error executing MySQL query:', err);
-                        return reject({ success1: false, error: 'Failed to execute MySQL query' });
-                    }
-                    resolve({ success1: true, result });
-                });
-            });
-        });
-    };
+    const getConn = await pool.getConnection()
 
-    const { success1, error , result} = await queryAsync("CALL addBlogs(?, ?, ?, ?)", [title, content, slug, imagePath]);
-    
-    if (error) {
-        console.error('Error:', error);
-        return NextResponse.json(error, { status: 500 });
-    }
+        const [rows] = await getConn.execute("CALL addBlogs(?, ?, ?, ?)", [title, content, slug, imagePath]);
 
-    return NextResponse.json({ success1 , result }, { status: 200 });
+        console.log('rows data is:', rows)
+        
+return NextResponse.json({ result : rows }, { status: 200 });
   
       // Respond with success message
       } catch (error) {

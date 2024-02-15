@@ -1,13 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql';
-
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'IndustryApp'
-});
+import pool from '@/database/db';
 
 export async function POST(req, res) {
     try {

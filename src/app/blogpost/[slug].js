@@ -1,9 +1,13 @@
+"use client"
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const slug = () => {
+const SlugPage = () => {
+    
     const router = useRouter()
     const {slug} = router.query
+
+    console.log(slug)
   return (
     <div>
       
@@ -11,4 +15,4 @@ const slug = () => {
   )
 }
 
-export default slug
+export default SlugPage
